@@ -29,10 +29,8 @@ pipeline {
             container(name: 'maven') {
               sh 'mvn test'
             }
-
           }
         }
-
       }
     }
 
@@ -43,16 +41,14 @@ pipeline {
             container(name: 'maven') {
               sh 'mvn package -DskipTests'
             }
-
           }
         }
 
         stage('Docker BnP') {
           steps {
             container(name: 'kaniko') {
-              sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/shichoc/dso-demo'
+              sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --force --insecure --skip-tls-verify --cache=true --destination=docker.io/shichoc/dso-demo'
             }
-
           }
         }
 
@@ -64,6 +60,5 @@ pipeline {
         sh 'echo done'
       }
     }
-
   }
 }
