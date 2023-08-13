@@ -5,6 +5,7 @@ pipeline {
       defaultContainer 'maven'
       idleMinutes 1
     }
+
   }
   stages {
     stage('Build') {
@@ -14,8 +15,10 @@ pipeline {
             container(name: 'maven') {
               sh 'mvn compile'
             }
+
           }
         }
+
       }
     }
 
@@ -26,8 +29,10 @@ pipeline {
             container(name: 'maven') {
               sh 'mvn test'
             }
+
           }
         }
+
       }
     }
 
@@ -38,6 +43,7 @@ pipeline {
             container(name: 'maven') {
               sh 'mvn package -DskipTests'
             }
+
           }
         }
 
@@ -46,8 +52,10 @@ pipeline {
             container(name: 'kaniko') {
               sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/shichoc/dsodemo'
             }
+
           }
         }
+
       }
     }
 
@@ -56,5 +64,6 @@ pipeline {
         sh 'echo done'
       }
     }
+
   }
 }
