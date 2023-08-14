@@ -99,6 +99,7 @@
 					<includeRuntimeScope>true</includeRuntimeScope>
 					<includeSystemScope>true</includeSystemScope>
 					<includeTestScope>false</includeTestScope>
+					<includeDependencyGraph>true</includeDependencyGraph>
 				</configuration>
 			</plugin>
 		</plugins>
