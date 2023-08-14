@@ -61,27 +61,27 @@ pipeline {
             }
           }
         }
+        stage('Generate SBOM') {
+          steps {
+            container('maven') {
+              sh 'mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom'
+            }
+          }
+          post {
+            success {
+              dependencyTrackPublisher projectName:'demo', projectVersion: '0.0.1', artifact: 'target/bom.xml', autoCreateProjects: true, synchronous: true
+              archiveArtifacts allowEmptyArchive: true, artifacts: 'target/bom.xml', fingerprint: true, onlyIfSuccessful: true
+            }
+          }
+        }
       }
     }
 
-    stage('Package') {
-      parallel {
-        stage('Create Jarfile') {
-          steps {
-            container(name: 'maven') {
-              sh 'mvn package -DskipTests'
-            }
-          }
+    stage('Create Jarfile') {
+      steps {
+        container(name: 'maven') {
+          sh 'mvn package -DskipTests'
         }
-
-        stage('Docker BnP') {
-          steps {
-            container(name: 'kaniko') {
-              sh '''/kaniko/executor --verbosity debug -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/shichoc/dso-demo:latest'''
-            }
-          }
-        }
-
       }
     }
 
