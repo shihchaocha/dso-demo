@@ -43,8 +43,14 @@ pipeline {
     }
 
     stage('Deploy to Dev') {
-      steps {
-        sh 'echo done'
+      parallel {
+        stage('Docker BnP') {
+          steps {
+            container(name: 'kaniko') {
+              sh '''/kaniko/executor --verbosity debug -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/shichoc/dso-demo:latest'''
+            }
+          }
+        }
       }
     }
   }
