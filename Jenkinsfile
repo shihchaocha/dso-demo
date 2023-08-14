@@ -34,14 +34,10 @@ pipeline {
       }
     }
 
-    stage('Package') {
-      parallel {
-        stage('Create Jarfile') {
-          steps {
-            container(name: 'maven') {
-              sh 'mvn package -DskipTests'
-            }
-          }
+    stage('Create Jarfile') {
+      steps {
+        container(name: 'maven') {
+          sh 'mvn package -DskipTests'
         }
       }
     }
