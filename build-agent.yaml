@@ -28,9 +28,15 @@ spec:
       command:
         - cat
       tty: true
+    - name: slscan
+      image: shiftleft/sast-scan
+      imagePullPolicy: IfNotPresent
+      command:
+        - cat
+      tty: true
     - name: kaniko
       image: gcr.io/kaniko-project/executor:debug
-      imagePullPolicy: Always
+      imagePullPolicy: IfNotPresent
       command:
         - sleep
       args:
