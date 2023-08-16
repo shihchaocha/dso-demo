@@ -54,7 +54,9 @@ pipeline {
           }
           post {
             always {
-              //archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report.html', fingerprint: true, onlyIfSuccessful: true
+              archiveArtifacts allowEmptyArchive: true,
+              artifacts: 'target/dependency-check-report.html',
+              fingerprint: true, onlyIfSuccessful: true
               // dependencyCheckPublisher pattern: 'report.xml'
             }
           }
@@ -85,13 +87,13 @@ pipeline {
           }
         }
 
-        //stage('Docker BnP') {
-        //  steps {
-        //    container(name: 'kaniko') {
-        //      sh '''/kaniko/executor --verbosity debug -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/shichoc/dso-demo:latest'''
-        //    }
-        //  }
-        //}
+        stage('Docker BnP') {
+          steps {
+            container(name: 'kaniko') {
+              sh '''/kaniko/executor --verbosity debug -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/shichoc/dso-demo:latest'''
+            }
+          }
+        }
 
       }
     }
