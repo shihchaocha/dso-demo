@@ -61,18 +61,6 @@ pipeline {
             }
           }
         }
-        stage('SAST') {
-          steps {
-            container('slscan') {
-              sh 'scan --type java,depscan --build'
-            }
-          }
-          post {
-            success {
-              archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/*', fingerprint: true, onlyIfSuccessful: true
-            }
-          }
-        }
         stage('OSS License Checker') {
           steps {
             container('licensefinder') {
@@ -89,6 +77,19 @@ pipeline {
       }
     }
 
+    stage('SAST') {
+      steps {
+        container('slscan') {
+          sh 'scan --type java,depscan --build'
+        }
+      }
+      post {
+        success {
+          archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/*', fingerprint: true, onlyIfSuccessful: true
+        }
+      }
+    }
+
     stage('Package') {
       parallel {
         stage('Create Jarfile') {
@@ -99,13 +100,13 @@ pipeline {
           }
         }
 
-        //stage('Docker BnP') {
-        //  steps {
-        //    container(name: 'kaniko') {
-        //      sh '''/kaniko/executor --verbosity debug -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/shichoc/dso-demo:latest'''
-        //    }
-        //  }
-        //}
+        stage('Docker BnP') {
+          steps {
+            container(name: 'kaniko') {
+              sh '''/kaniko/executor --verbosity debug -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/shichoc/dso-demo:latest'''
+            }
+          }
+        }
 
       }
     }
