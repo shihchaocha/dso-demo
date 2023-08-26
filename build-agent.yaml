@@ -48,7 +48,7 @@ spec:
         - name: jenkins-docker-cfg
           mountPath: /kaniko/.docker
     - name: licensefinder
-      image: licensefinder/license_finder
+      image: licensefinder/license_finder:7.1.0
       imagePullPolicy: IfNotPresent
       command:
         - cat
