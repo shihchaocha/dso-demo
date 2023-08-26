@@ -7,6 +7,7 @@ spec:
   containers:
     - name: maven
       image: maven:alpine
+      imagePullPolicy: IfNotPresent
       command:
         - cat
       tty: true
@@ -15,6 +16,7 @@ spec:
           mountPath: /root/.m2/
     - name: docker-tools
       image: rmkanda/docker-tools:latest
+      imagePullPolicy: IfNotPresent
       command:
         - cat
       tty: true
@@ -25,6 +27,7 @@ spec:
           name: trivycache
     - name: trufflehog
       image: rmkanda/trufflehog
+      imagePullPolicy: IfNotPresent
       command:
         - cat
       tty: true
@@ -46,6 +49,7 @@ spec:
           mountPath: /kaniko/.docker
     - name: licensefinder
       image: licensefinder/license_finder
+      imagePullPolicy: IfNotPresent
       command:
         - cat
       tty: true
