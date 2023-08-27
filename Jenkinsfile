@@ -100,13 +100,13 @@ pipeline {
           }
         }
 
-        //stage('Docker BnP') {
-        //  steps {
-        //    container(name: 'kaniko') {
-        //      sh '''/kaniko/executor --verbosity debug -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/shichoc/dso-demo:latest'''
-        //    }
-        //  }
-        //}
+        stage('Docker BnP') {
+          steps {
+            container(name: 'kaniko') {
+              sh '''/kaniko/executor --verbosity debug -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/shichoc/dso-demo:latest'''
+            }
+          }
+        }
       }
     }
 
