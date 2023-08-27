@@ -79,7 +79,6 @@ pipeline {
 
     stage('SAST') {
       steps {
-        sh 'too long'
         container('slscan') {
           sh 'scan --type java,depscan --build'
         }
